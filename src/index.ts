@@ -8,6 +8,8 @@ type Note = {
 }
 
 async function pageLoader():Promise<void>{
+    const noteForm = document.getElementById('noteForm');
+    noteForm?.addEventListener('submit', handleFormSubmit)
     let notes = await getNotesFromAPI();
     displayNotes(notes)
 }
@@ -52,5 +54,38 @@ function createNoteCard(note:Note):HTMLDivElement {
     timeStamp.innerHTML = note.dateCreated
     cardBody.append(timeStamp)
     return card
+}
+
+
+async function handleFormSubmit(e:SubmitEvent):Promise<void>{
+    e.preventDefault();
+    let noteInput = document.getElementById('noteInput') as HTMLInputElement;
+    let noteBody = noteInput.value
+    
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/JSON');
+
+    let data = JSON.stringify({ body: noteBody })
+
+    let response = await fetch('http://localhost:5000/notes', {
+        method: 'POST',
+        headers: myHeaders,
+        body: data
+    })
+
+    let newNote = await response.json();
+    let alertSection = document.getElementById('alert')
+
+    alertSection!.innerHTML = `
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>${newNote.body} has been created!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `
+    
+    let notes = await getNotesFromAPI();
+    displayNotes(notes)
+
+    noteInput.value = '';
 }
 

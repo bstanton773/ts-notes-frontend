@@ -20,12 +20,23 @@
                 <h3 class="text-center">Welcome to the Coolest Notes App in the World!</h3>
             </div>
         </div>
-        <!-- Form Row -->
-        <div class="row">
+        <!-- Alert Row -->
+        <div class="row" id="alert">
 
         </div>
+        <!-- Form Row -->
+        <div class="row">
+            <div class="card bg-primary-subtle p-3">
+                <form action="" id="noteForm">
+                    <label for="note" class="form-label">New Note</label>
+                    <input type="text" name="note" id="noteInput" class="form-control" placeholder="Enter Your New Note Here">
+
+                    <input class="btn btn-danger w-100 mt-3" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
         <!-- Row Displaying all of the Notes -->
-        <div class="row" id="notes">
+        <div class="row mt-3" id="notes">
             
         </div>
     </div>
